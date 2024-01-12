@@ -33,6 +33,12 @@ public class GeneralExceptionHandler {
         String errorMessage = exception.getMessage();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(errorMessage));
     }
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(OrderNotFoundException.class)
+    public ResponseEntity<ApiResponse> handleNOtFoundException(OrderNotFoundException exception){
+        String errorMessage = exception.getMessage();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(errorMessage));
+    }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ApiResponse> handleIllegalArgumentException(IllegalArgumentException ex) {
@@ -45,4 +51,6 @@ public class GeneralExceptionHandler {
         ApiResponse response = new ApiResponse(ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
+
+
 }

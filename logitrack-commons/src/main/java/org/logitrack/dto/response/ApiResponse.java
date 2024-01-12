@@ -19,30 +19,28 @@ import java.util.Map;
 @Data
 @Builder
 @ToString
-public class ApiResponse {
+public class ApiResponse<T> {
 
-
-    private String code;
-    private String message;
-    private Object data;
-    private String status;
+        private String code;
+        private String message;
+        private T data;
+        private String status;
 
     @JsonIgnore
     private HttpStatus httpStatus;
 
+        public ApiResponse(String code, String message, T data, String status) {
+            this.code = code;
+            this.message = message;
+            this.data = data;
+            this.status = status;
+        }
 
-    public ApiResponse(String code, String message, Object data, String status) {
-        this.code = code;
-        this.message = message;
-        this.data = data;
-        this.status = status;
-    }
-
-    public ApiResponse(String code, String message, HttpStatus httpStatus) {
-        this.code = code;
-        this.message = message;
-        this.httpStatus = httpStatus;
-    }
+        public ApiResponse(String code, String message, HttpStatus httpStatus) {
+            this.code = code;
+            this.message = message;
+            this.httpStatus = httpStatus;
+        }
 
     public ApiResponse(Map<String, String> map) {
         this.status = map.get("status");
@@ -52,6 +50,6 @@ public class ApiResponse {
     public ApiResponse(String message) {
         this.message = message;
     }
-}
+    }
 
 

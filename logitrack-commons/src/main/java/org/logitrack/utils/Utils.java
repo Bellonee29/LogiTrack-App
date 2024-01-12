@@ -3,40 +3,28 @@ package org.logitrack.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.logitrack.exceptions.CommonApplicationException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
+//import org.springframework.security.core.Authentication;
 
 import java.security.Key;
-import java.util.Date;
 import java.util.Map;
 
 @Slf4j
 public class Utils {
-    @Value("${jwt.secretToken}")
-    private static String secretToken;
+//    @Value("${jwt.secretToken}")
+//    private String secretToken;
+    private static String secretToken = "sdfghjklsdfghjksdfghjdfghjertyucvbertyxcvertyxcvtyvertyertyuertyuxcvxcertertdfgxcvsdfgdf";
+
 
     private static Key getSigningKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secretToken);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateToken(Authentication authentication) {
-        String email = authentication.getName();
-        Date currentDate = new Date(System.currentTimeMillis());
-        Date expiryDate = new Date(System.currentTimeMillis() + 60000 * 60);
-        return Jwts.builder()
-                .setSubject(email)
-                .setIssuedAt(currentDate)
-                .setExpiration(expiryDate)
-                .signWith(getSigningKey(), SignatureAlgorithm.HS512)
-                .compact();
-    }
 
     public static Claims getUserNameFromToken(String token) {
         log.info("JwtService is called to extract the userEmail from the JWT");
